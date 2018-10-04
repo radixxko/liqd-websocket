@@ -8,10 +8,10 @@ let s = require('http').createServer();
 
 const server = new Websocket.Server(
 {
-  server: { port: 8080 }
+  server: s
 });
 
-//s.listen( 8080 );
+s.listen( 8080 );
 
 server.on( 'client', client =>
 {
