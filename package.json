@@ -1,7 +1,7 @@
 {
   "name": "liqd-websocket",
   "description": "Websocket Library",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "radixxko",
   "license": "MIT",
   "main": "lib/websocket.js",
@@ -22,12 +22,13 @@
   ],
   "devDependencies": {
     "coveralls": "^3.0.0",
-    "liqd-cache": "^1.0.1",
+    "liqd-cache": "^1.0.2",
     "mocha": "^5.0.4",
     "nyc": "^11.6.0",
-    "ws": "^6.0.0"
+    "ws": "^6.1.0"
   },
   "dependencies": {
-    "liqd-options": "^1.0.4"
+    "liqd-multibuffer": "^1.0.4",
+    "liqd-options": "^1.0.5"
   }
 }

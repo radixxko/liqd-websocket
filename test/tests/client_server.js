@@ -5,9 +5,9 @@ const Websocket = require('../../lib/websocket');
 
 const Messages = new Cache();
 const Random = ( min, max ) => min + Math.floor( Math.random() * ( max - min ));
-//const Message = () => Crypto.randomBytes( Math.random() < 0.34 ? Random(1, 128) : Math.random() < 0.5 ? Random(128, 65536) : Random(65536, 128000) );
+const Message = () => Crypto.randomBytes( Math.random() < 0.34 ? Random(1, 128) : Math.random() < 0.5 ? Random(128, 65536) : Random(65536, 128000) );
 
-const Message = () => Crypto.randomBytes( 64 );
+//const Message = () => Crypto.randomBytes( 64 );
 
 const server = new Websocket.Server(
 {
@@ -30,6 +30,7 @@ server.on( 'client', client =>
 		Messages.set( typeof message === 'string' ? message : message.toString('hex'), 'server->client not received', 5000, assert.fail );
 
 		client.send( message );
+        //console.log( sent_messages );
 
 		if( ++sent_messages >= 10000 ){ clearInterval( interval ); console.log( 'Server sent ' + sent_messages + ' messages' ) }
 	},
@@ -37,6 +38,8 @@ server.on( 'client', client =>
 
 	client.on( 'message', message =>
 	{
+        //console.log( 'client message' );
+
 		Messages.delete( typeof message === 'string' ? message : message.toString('hex'), false );
 	});
 });
@@ -45,7 +48,7 @@ const client = new Websocket.Client( 'ws://localhost:8080' );
 
 client.on( 'open', () =>
 {
-	let sent_messages = 0, interval = setInterval(() =>
+    let sent_messages = 0, interval = setInterval(() =>
 	{
 		let message = Message();
 
@@ -54,18 +57,23 @@ client.on( 'open', () =>
 			message = message.toString('base64');
 		}
 
-		Messages.set( typeof message === 'string' ? message : message.toString('hex'), 'client->server not received', 5000, assert.fail );
+        Messages.set( typeof message === 'string' ? message : message.toString('hex'), 'client->server not received', 5000, assert.fail );
 
-		client.send( message );
+        client.send( message );
+        //console.log( sent_messages );
 
-		if( ++sent_messages >= 10000 ){ clearInterval( interval ); console.log( 'Client sent ' + sent_messages + ' messages' ) }
+        if( ++sent_messages >= 10000 ){ clearInterval( interval ); console.log( 'Client sent ' + sent_messages + ' messages' ) }
 	},
 	1 );
 
 	client.on( 'message', message =>
 	{
+        //console.log( 'server message' );
+
 		Messages.delete( typeof message === 'string' ? message : message.toString('hex'), false );
 	});
 });
 
 client.on( 'error', console.error );
+
+setTimeout( process.exit, 60000 );

@@ -1,3 +1,3 @@
 'use strict';
 
-require( './tests/client_server' );
+require( './tests/server' );
