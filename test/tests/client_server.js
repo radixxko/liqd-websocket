@@ -7,8 +7,6 @@ const Messages = new Cache();
 const Random = ( min, max ) => min + Math.floor( Math.random() * ( max - min ));
 const Message = () => Crypto.randomBytes( Math.random() < 0.34 ? Random(1, 128) : Math.random() < 0.5 ? Random(128, 65536) : Random(65536, 128000) );
 
-//const Message = () => Crypto.randomBytes( 64 );
-
 const server = new Websocket.Server(
 {
   port: 8080
@@ -75,5 +73,3 @@ client.on( 'open', () =>
 });
 
 client.on( 'error', console.error );
-
-setTimeout( process.exit, 60000 );
