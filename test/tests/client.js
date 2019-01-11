@@ -1,36 +1,56 @@
-const WS = require('ws');
+const assert = require('assert');
 const Websocket = require('../../lib/websocket');
+const Messages = require('../helpers/messages');
+const WS = require('ws');
 
-const SERVER_PAYLOAD = require('crypto').randomBytes(64).toString('base64');
-const CLIENT_PAYLOAD = require('crypto').randomBytes(64).toString('base64');
-
-const server = new WS.Server(
+it('should send and receive messages [client]', async function()
 {
-  port: 8080
-});
+    const MSG_COUNT = 1000, ServerMessages = new Messages(), ClientMessages = new Messages();
 
-server.on( 'connection', client =>
-{
-	console.log('client');
+    const server = new WS.Server(
+    {
+        port: 8081
+    });
 
-	client.on( 'message', message =>
-	{
-		console.log( 'Server RX', message, CLIENT_PAYLOAD === message );
-	});
+    server.on( 'connection', client =>
+    {
+    	let interval = setInterval(() =>
+    	{
+    		client.send( ServerMessages.send() );
 
-	setInterval(() => { console.log( 'Server TX', SERVER_PAYLOAD ); client.send( SERVER_PAYLOAD ); }, 2000 );
-});
+    		if( ServerMessages.count >= MSG_COUNT ){ clearInterval( interval ); }
+    	},
+    	1 );
 
-const client = new Websocket.Client( 'ws://localhost:8080/dasda' );
+    	client.on( 'message', message =>
+    	{
+            ClientMessages.receive( message );
+    	});
+    });
 
-client.on( 'open', () =>
-{
-	client.on( 'message', message =>
-	{
-		console.log( 'Client RX', message, SERVER_PAYLOAD === message );
-	});
+    const client = new Websocket.Client( 'ws://localhost:8081' );
 
-	setInterval(() => { console.log( 'Client TX', CLIENT_PAYLOAD ); client.send( CLIENT_PAYLOAD ); }, 2000 );
-});
+    client.on( 'open', () =>
+    {
+        let interval = setInterval(() =>
+    	{
+    		client.send( ClientMessages.send() );
 
-client.on( 'error', console.error );
+    		if( ClientMessages.count >= MSG_COUNT ){ clearInterval( interval ); }
+    	},
+    	1 );
+
+    	client.on( 'message', message =>
+    	{
+            ServerMessages.receive( message );
+    	});
+    });
+
+    client.on( 'error', console.error );
+
+    let [ server_status, client_status ] = await Promise.all([ ServerMessages.finished(), ClientMessages.finished() ]);
+
+    client.close();
+    server.close();
+
+}).timeout( 60000 );

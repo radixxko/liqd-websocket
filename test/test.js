@@ -1,3 +1,8 @@
 'use strict';
 
-require( './tests/client_server' );
+describe( 'Tests', ( done ) =>
+{
+    require( './tests/client' );
+    require( './tests/server' );
+    require( './tests/client_server' );
+});
