@@ -6,20 +6,22 @@ const Message = () =>
 {
     let message;
 
-    switch( Random( 0, 11 ))
+    switch( Random( 0, 13 ))
     {
         case  0: message = Crypto.randomBytes( 0 ); break;
         case  1: message = Crypto.randomBytes( 1 ); break;
-        case  2: message = Crypto.randomBytes( Random( 1, 125 )); break;
+        case  2: message = Crypto.randomBytes( Random( 2, 124 )); break;
         case  3: message = Crypto.randomBytes( 125 ); break;
         case  4: message = Crypto.randomBytes( 126 ); break;
-        case  5: message = Crypto.randomBytes( Random( 126, 65535 )); break;
-        case  6: message = Crypto.randomBytes( 65535 ); break;
-        case  7: message = Crypto.randomBytes( 65536 );
-        case  8: message = Crypto.randomBytes( Random( 65536, 131072 )); break;
-        case  9: message = Crypto.randomBytes( 131072 ); break;
-        case 10: message = 'Příliš žluťoučký kůň úpěl ďábelské ódy'; break;
-        case 11: message = '👐 🙌 👏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤟 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 👋 🤙 💪 🦵 🦶 🖕 ✍️ 🙏'; break;
+        case  5: message = Crypto.randomBytes( 127 ); break;
+        case  6: message = Crypto.randomBytes( 128 ); break;
+        case  7: message = Crypto.randomBytes( Random( 129, 65534 )); break;
+        case  8: message = Crypto.randomBytes( 65535 ); break;
+        case  9: message = Crypto.randomBytes( 65536 );
+        case 10: message = Crypto.randomBytes( Random( 65537, 131071 )); break;
+        case 11: message = Crypto.randomBytes( 131072 ); break;
+        case 12: message = 'Příliš žluťoučký kůň úpěl ďábelské ódy'; break;
+        case 13: message = '👐 🙌 👏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤟 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 👋 🤙 💪 🦵 🦶 🖕 ✍️ 🙏'; break;
     }
 
     if( Math.random() < 0.5 && message.length && typeof message !== 'string' )

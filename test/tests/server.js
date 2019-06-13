@@ -50,7 +50,8 @@ it('should send and receive messages [server]', async function()
 
     let [ server_status, client_status ] = await Promise.all([ ServerMessages.finished(), ClientMessages.finished() ]);
 
-    client.close();
-    server.close();
+    client.close( 1000, 'test' );
+
+    setTimeout(() => server.close(), 1000 );
 
 }).timeout( 60000 );
