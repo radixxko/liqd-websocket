@@ -9,7 +9,8 @@ it('should ping [server]', async function()
 {
     const server = new Websocket.Server(
     {
-        port: 8082
+        port: 8082,
+        client: { ping: { interval: 2000, timeout: 1000, on_timeout: c => c }}
     });
 
     server.on( 'client', client =>
@@ -24,7 +25,7 @@ it('should ping [server]', async function()
 
     client.on( 'open', () =>
     {
-        
+
     });
 
     client.on( 'error', console.error );
