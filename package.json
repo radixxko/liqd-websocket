@@ -21,7 +21,7 @@
     "liqd"
   ],
   "devDependencies": {
-    "coveralls": "^3.0.4",
+    "coveralls": "^3.0.5",
     "liqd-cache": "^1.0.4",
     "mocha": "^5.0.4",
     "nyc": "^14.1.1",
@@ -30,6 +30,7 @@
   "dependencies": {
     "liqd-multibuffer": "^1.0.7",
     "liqd-options": "^1.0.8",
+    "liqd-querystring": "^1.1.0",
     "liqd-timer": "^1.0.4"
   }
 }
